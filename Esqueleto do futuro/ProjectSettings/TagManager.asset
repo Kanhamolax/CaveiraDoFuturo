@@ -45,6 +45,9 @@ TagManager:
   - name: Fundo
     uniqueID: 1806308987
     locked: 0
-  - name: Player
+  - name: Mapa
     uniqueID: 402496535
+    locked: 0
+  - name: Player
+    uniqueID: 3064011565
     locked: 0
