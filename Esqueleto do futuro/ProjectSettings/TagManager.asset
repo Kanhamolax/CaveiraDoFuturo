@@ -5,11 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - Atak
+  - Wall
+  - Enimy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enimy
   - Water
   - UI
   - 

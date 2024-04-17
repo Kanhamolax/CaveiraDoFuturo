@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -8,22 +9,40 @@ public class PlayerControl : MonoBehaviour
     private GameObject player, cam,leftPOint, rightPOint;
 
     [SerializeField]
+    private Image junpUI, AtkUI,life;
+
+    [SerializeField]    
     private float velocit;
    
 
 
-    private bool jump,atak;
+    private bool jump,atak,takeDamage;
     private float x, y, z;
-   
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         jump = false;
         atak = false;
-       
-        
+        life.fillAmount = 1;
+        QualitySettings.vSyncCount = 1;
+        Application.targetFrameRate = 60;
     }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "Enimy")
+        {
+
+            player.GetComponent<Animator>().SetBool("Damage", true);
+            life.fillAmount -= 0.2f;
+            StartCoroutine(Damage());
+
+
+        }
+
+    }
+    // Start is called before the first frame update
+  
   
 
     // Update is called once per frame
@@ -31,6 +50,12 @@ public class PlayerControl : MonoBehaviour
     {
 
         PlayerMove();
+        if(life.fillAmount<=0)
+        {
+            player.GetComponent<Animator>().SetBool("Death", true);
+            StartCoroutine(Death());
+
+        }
 
     }
     void CamMove()
@@ -40,6 +65,33 @@ public class PlayerControl : MonoBehaviour
         z = player.transform.position.z;
         cam.transform.position = new Vector3(x, y, z - 10);
 
+    }
+    IEnumerator Death()
+    {
+        player.gameObject.GetComponent<SpriteRenderer>().color= Color.red;
+        yield return new WaitForSeconds(0.2f);
+
+        player.GetComponent<Animator>().SetBool("Death", true);
+        player.SetActive(false);
+
+    }
+    IEnumerator Damage()
+    {
+       
+            yield return new WaitForSeconds(0.2f);
+
+        player.GetComponent<Animator>().SetBool("Damage", false);
+
+    }
+    IEnumerator PosCast(float seconds, Image image)
+    {
+        image.fillAmount = 0;
+        for (int i = 0; i < 10; i++) 
+        {
+            yield return new WaitForSeconds(seconds / 10);
+            image.fillAmount += 0.1f;
+        }
+      
     }
 
 
@@ -83,6 +135,7 @@ public class PlayerControl : MonoBehaviour
             player.GetComponent<Rigidbody2D>().AddForce(Vector2.up * (velocit + 10), ForceMode2D.Impulse);
             StartCoroutine(Jump());
 
+
         }
         if (Input.GetKey(KeyCode.RightArrow) && !atak)
         {
@@ -108,8 +161,10 @@ public class PlayerControl : MonoBehaviour
 
     IEnumerator Jump()
     {
+        StartCoroutine(PosCast(2.8f, junpUI));
         yield return new WaitForSeconds(0.8f);
         player.GetComponent<Animator>().SetBool("Jump", false);
+
       
         yield return new WaitForSeconds(2);
 
@@ -120,11 +175,12 @@ public class PlayerControl : MonoBehaviour
 
     IEnumerator Atak()
     {
+        StartCoroutine(PosCast(2.4f, AtkUI));
         yield return new WaitForSeconds(0.4f);
         player.GetComponent<Animator>().SetBool("Atak", false);
         rightPOint.SetActive(false);
         leftPOint.SetActive(false);
-
+       
         yield return new WaitForSeconds(2);
 
         atak = false;

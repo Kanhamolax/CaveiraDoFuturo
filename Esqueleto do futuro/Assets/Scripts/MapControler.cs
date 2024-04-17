@@ -6,6 +6,15 @@ public class MapControler : MonoBehaviour
 {
     [SerializeField]
     private SpriteRenderer groundSprite;
+    [SerializeField]
+    private GameObject enimy;
+
+
+    private bool loop;
+    private void Awake()
+    {
+       loop = true;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +25,12 @@ public class MapControler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!enimy.active)
+        {
+            loop = false;
+            groundSprite.color = Color.red;
+        }
+      
         
     }
     private IEnumerator PsicodelicGroud()
@@ -25,7 +40,7 @@ public class MapControler : MonoBehaviour
         bool flip = true;
 
 
-        while (true) 
+        while (loop) 
         {
           if(indexCollor==0 && flip)
           {

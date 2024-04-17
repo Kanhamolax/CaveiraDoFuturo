@@ -739,6 +739,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Cara
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 461
+        width: 35
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f494b275220e18438076909bfb4f354
+      internalID: 116780763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -753,6 +774,7 @@ TextureImporter:
       Atak1: -1193857657
       Atak2: -1407360560
       Atak3: 503072822
+      Cara: 116780763
       Dead1: -1576040304
       Dead2: 1749533319
       Dead3: -826923689
